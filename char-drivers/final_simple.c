@@ -10,7 +10,7 @@
 #include <linux/slab.h>		/* kfree          */
 
 
-#define FIRST_MINOR 0
+#define FIRST_MINOR 1
 #define TOTAL_MINOR 1 
 
 
@@ -72,7 +72,8 @@ static ssize_t myWrite(struct file *f, const char __user *buf, size_t len, loff_
 		return 0;
 	}
 
-	receiveData = kmalloc(len, GFP_KERNEL);
+	//receiveData = kmalloc(len, GFP_KERNEL); //non initialize data. while printing, it may print garbage also.
+	receiveData = kzalloc(len, GFP_KERNEL); //initiaize with 0, it will not print garbage while printing.
 
 	ret = copy_from_user(receiveData, buf, len);
 	if(ret > 0)
@@ -81,7 +82,7 @@ static ssize_t myWrite(struct file *f, const char __user *buf, size_t len, loff_
 	}
 	
 	printk(KERN_INFO "final_simple: receiveData = %s", receiveData);
-
+	printk(KERN_INFO "final_simple: after printing receivedData.");
 	kfree(receiveData);
 
 	return (len-ret);
@@ -152,11 +153,12 @@ static int __init myInit(void)
  */
 static void __exit myExit(void)
 {
-	printk(KERN_INFO "final_simple: final_simple unregistered");
 	device_destroy(final_simple_class, dev_no);
 	class_destroy(final_simple_class);
 	cdev_del(&char_dev);
 	unregister_chrdev_region(dev_no, TOTAL_MINOR);
+	printk(KERN_INFO "final_simple: final_simple unregistered");
+	printk(KERN_INFO "final_simple: after printing exit message");
 }
 
 module_init(myInit);
