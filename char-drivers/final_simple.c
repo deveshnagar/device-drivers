@@ -135,6 +135,8 @@ static int __init myInit(void)
 		return PTR_ERR(final_simple_class);
 	}
 
+
+	//Create sysfs entry in /sys/class/char and device node in /dev/
 	device_ret = device_create(final_simple_class, NULL, dev_no, NULL, "final_simple%d", FIRST_MINOR);
 	if(IS_ERR(device_ret))
 	{
@@ -196,13 +198,55 @@ MODULE_DESCRIPTION("Final Simple Character Driver Template");
  *		The major number will be chosen dynamically, and returned (along with the first minor number) in dev.
  *		Returns zero or a negative error code. 
  */
- 
- 
+  
 /*
- *void unregister_chrdev_region (dev_t from, unsigned count)
+ *void unregister_chrdev_region (dev_t from, unsigned count);
  *	from : the first in the range of numbers to unregister 
  *	count: the number of device numbers to unregister
  *	unregister_chrdev_region() :
  *		This function will unregister a range of count device numbers, starting with from.
  *		The caller should normally be the one who allocated those numbers in the first place.
+ */
+
+/*
+ *void cdev_init (struct cdev* cdev, const struct file_operations* fops);
+ *	cdev : the structure to initialize
+ *	fops : the file_operations for this device
+ *	cdev_init() :
+ *		Initializes cdev, remembering fops, making it ready to add to the system with cdev_add.
+ */
+
+/*
+ *int cdev_add (struct cdev* p, dev_t dev, unsigned count);
+ *	p   : the cdev structure for the device
+ *	dev : the first device number for which this device is responsible
+ *	count : the number of consecutive minor numbers corresponding to this device
+ *	cdev_add() :
+ *		cdev_add adds the device represented by p to the system, making it live immediately.
+ *		A negative error code is returned on failure.
+ */
+
+/*
+ *struct class * class_create (struct module* owner, const char* name);
+ *	owner : pointer to the module that is to “own” this struct class
+ *	name  : pointer to a string for the name of this class
+ *	class_create() :
+ *		This is used to create a struct class pointer that can then be used in calls to class_device_create.
+ *		Note, the pointer created here is to be destroyed when finished by making a call to class_destroy.
+ */
+
+/*
+ *struct device* device_create(struct class* class, struct device* parent, dev_t devt, const char* fmt, ...);
+ *	class  : pointer to the struct class that this device should be registered to
+ *	parent : pointer to the parent struct device of this new device, if any
+ *	devt : the dev_t for the char device to be added
+ *	fmt  : string for the device's name
+ *	device_create() :
+ *		This function can be used by char device classes. A struct device will be created in sysfs, registered to the specified class.
+ *		A “dev” file will be created, showing the dev_t for the device, if the dev_t is not 0,0.
+ *		If a pointer to a parent struct device is passed in, the newly created struct device will be a child of that device in sysfs.
+ *		The pointer to the struct device will be returned from the call.
+ *		Any further sysfs files that might be required can be created using this pointer.
+ *		The struct class passed to this function must have previously been created with a call to class_create.
+ *
  */
