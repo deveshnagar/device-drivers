@@ -5,7 +5,7 @@
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
 
-#define FIRST_MINOR 0
+#define FIRST_MINOR 1
 #define TOTAL_MINOR 1 
 
 
@@ -39,7 +39,7 @@ static int __init myInit(void)
 /*
  *Exit function
  */
-static void __init myExit(void)
+static void __exit myExit(void)
 {
 	printk(KERN_INFO "simple: simple unregistered");
 	unregister_chrdev_region(dev_no, TOTAL_MINOR);
@@ -55,11 +55,9 @@ MODULE_DESCRIPTION("Simple Character Driver Template");
 /*
  * FIRST_MINOR  : First minor number, we can chose any number. Range will wtart from this number.
  * TOTAL_NUMBER : Total minor numbers required.
- * These both sould not be same, I faced crash at rmmod.
  * dev_no : This variable is used to store major number and minor number.
  * myInit() : Init function
  * myExit() : Exit function
- * In exit function, printk should not be on last, I faced crash if it was in last.
  *
  */
 
