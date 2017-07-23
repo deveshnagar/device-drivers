@@ -54,15 +54,26 @@ static struct class *class_dev;	//Pointer to the class structure of this device
 
 static ssize_t gpio_read(struct file* file_p, char *buf, size_t count, loff_t *f_pos)
 {
-	printk(KERN_INFO "gpio_led: gpio_read +");
-	unsigned char temp = gpio_get_value(GPIO_NUMBER);
-	printk(KERN_INFO "gpio_led: read value = %d", temp);
+	printk(KERN_INFO "gpio_led: gpio_read +\n");
+	unsigned int ret;
+	char temp[2];
+	ret = gpio_get_value(GPIO_NUMBER);
+	temp[0] = ret + '0';
+	temp[1] = 0;
+	printk(KERN_INFO "gpio_led: read value = %c\n", temp[0]);
 
-	if (copy_to_user(buf, &temp, 1))
+	ret = 2; //size of data to be written
+	if(*f_pos == 0)
 	{
-		return -EFAULT;
+		printk(KERN_INFO "f_pos = 0\n");
+		ret = copy_to_user(buf, &temp, 2);
+		*f_pos = *f_pos + 2; //So that it will come out from cat command. Here 1 is number of bytes written.
+		return 2;
 	}
-	return count;
+	else
+	{
+		return 0;
+	}
 }
 
 static ssize_t gpio_write(struct file* file_p, const char *buf, size_t count, loff_t *f_pos)
