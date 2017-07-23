@@ -178,7 +178,7 @@ MODULE_DESCRIPTION("Final Simple Character Driver Template");
 
 /*
  * FIRST_MINOR  : First minor number, we can chose any number. Range will wtart from this number.
- * TOTAL_NUMBER : Total minor numbers required.
+ * TOTAL_MINOR  : Total minor numbers required.
  * dev_no : This variable is used to store major number and minor number.
  * myInit() : Init function
  * myExit() : Exit function
