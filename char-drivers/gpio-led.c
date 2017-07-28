@@ -16,17 +16,13 @@
 #define TOTAL_MINOR 1		//Total minors
 #define GPIO_NUMBER 6		//gpio number
 
-/*
- * It is not working with GPIO_NUMBER=7 !!... might be because I defined same pin in DTS file also for led class.!
- *
- */
 
 /*
  * Radxa rock gpio pins
- * GPIO0_A6 = 166 = 6
- * GPIO0_A7 = 167 = 7
- * GPIO0_A1 = 161 = 1
- * GPIO0_B1 = 169 = 9
+ * GPIO0_A6 = 166 = 6 //Can use, if not defined in DTS
+ * GPIO0_A7 = 167 = 7 //Can use
+ * GPIO0_A1 = 161 = 1 //CAn use
+ * GPIO0_B1 = 169 = 9 //Can use
  * GPIO3_D4 = 284 = 124
  * GPIO3_D5 = 285 = 125
  * GPIO1_A0 = 192 = 31
