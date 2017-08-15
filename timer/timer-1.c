@@ -158,3 +158,22 @@ MODULE_DESCRIPTION("Kernel Timers Example");
  *
  *		Also see wait_event_interruptible_timeout(wq, condition, timeout)
  */
+
+/*
+ *  wait_event_interruptible (wq, condition);
+ *	wq 			: the waitqueue to wait on
+ *	condition 	: a C expression for the event to wait for
+ *	wait_event_interruptible() :
+ *		The process is put to sleep (TASK_INTERRUPTIBLE) until the condition evaluates to true or a signal is received.
+ *		The condition is checked each time the waitqueue wq is woken up.
+ *		wake_up has to be called after changing any variable that could change the result of the wait condition.
+ *		The function will return -ERESTARTSYS if it was interrupted by a signal and 0 if condition evaluated to true.
+ */
+
+/*
+ *
+ * wait_queue_head_t my_queue;
+ * init_waitqueue_head(&my_queue);
+ *		Initialize wait queue my_queue
+ */
+
