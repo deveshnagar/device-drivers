@@ -214,7 +214,7 @@ static int gpio_init(void)
 	}
 	
 
-	char gpio_name[8] = {0,0,0,0,0,0,0,0};
+	char gpio_name[8] = {0,};
 	for(i = FIRST_MINOR-1; i < TOTAL_MINOR; i++)
 	{
 		printk(KERN_ALERT "gpio_led: i = %d\n", i);
@@ -233,7 +233,7 @@ static int gpio_init(void)
 			printk(KERN_ALERT "gpio_led: gpio %u request error \n", gpio_led[i]);
 			return -1;
 		}
-		gpio_direction_output(gpio_led[i], 1);
+		gpio_direction_output(gpio_led[i], 1);  //by defatult output is high from second param
 	}
 	
 	return 0;

@@ -19,6 +19,7 @@
 
 /*
  * Radxa rock gpio pins
+ * GPIO0_A5 = 165 = 5
  * GPIO0_A6 = 166 = 6
  * GPIO0_A7 = 167 = 7
  * GPIO0_A1 = 161 = 1
